@@ -37,7 +37,23 @@ function removeContact(contactId) {
 }
 
 function addContact(name, email, phone) {
-  // ...twój kod
+  const contacts = JSON.parse(fs.readFileSync(contactsPath));
+  const newId = Math.max(...contacts.map(({ id }) => +id)) + 1;
+  const newContact = {
+    id: String(newId),
+    name: name,
+    email: email,
+    phone: phone,
+  };
+  const newContactsList = [...contacts, newContact];
+  fs.writeFile(
+    contactsPath,
+    JSON.stringify(newContactsList, null, "\t"),
+    (err) => {
+      if (err) console.error(err);
+      console.log(`Pomyślnie dodano ${name} do listy kontaktów`.green);
+    }
+  );
 }
 
-module.exports = { listContacts, getContactById, removeContact };
+module.exports = { listContacts, getContactById, removeContact, addContact };
