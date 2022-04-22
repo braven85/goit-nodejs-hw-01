@@ -1,6 +1,10 @@
-const { listContacts, getContactById } = require("./contacts");
+const { listContacts, getContactById, removeContact } = require("./contacts");
 
 // Lista wszystkich kontaktów
-listContacts();
+// listContacts();
+
 // Kontakt pobrany po id
-getContactById(6);
+// getContactById(5);
+
+// Usuwanie kontaktu
+removeContact(7);
