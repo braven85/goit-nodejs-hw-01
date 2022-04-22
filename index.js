@@ -5,14 +5,40 @@ const {
   addContact,
 } = require("./contacts");
 
-// Lista wszystkich kontaktów
-// listContacts();
+const { Command } = require("commander");
+const program = new Command();
+program
+  .option("-a, --action <type>", "choose action")
+  .option("-i, --id <type>", "user id")
+  .option("-n, --name <type>", "user name")
+  .option("-e, --email <type>", "user email")
+  .option("-p, --phone <type>", "user phone");
 
-// Kontakt pobrany po id
-// getContactById(12);
+program.parse(process.argv);
 
-// Usuwanie kontaktu
-// removeContact(11);
+const argv = program.opts();
 
-// Dodawanie kontaktów
-// addContact("Marcin", "marcin@onet.pl", "222333444");
+function invokeAction({ action, id, name, email, phone }) {
+  switch (action) {
+    case "list":
+      listContacts();
+      break;
+
+    case "get":
+      getContactById(+id);
+      break;
+
+    case "add":
+      addContact(name, email, phone);
+      break;
+
+    case "remove":
+      removeContact(+id);
+      break;
+
+    default:
+      console.warn("\x1B[31m Unknown action type!");
+  }
+}
+
+invokeAction(argv);
